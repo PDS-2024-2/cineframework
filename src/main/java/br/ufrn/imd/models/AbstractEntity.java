@@ -11,7 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import lombok.Data;
 
+@Data
 @MappedSuperclass
 public class AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -31,22 +33,6 @@ public class AbstractEntity implements Serializable {
 
 	public AbstractEntity(Long id) {
 		this.id = id;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
 	}
 
 	@PrePersist

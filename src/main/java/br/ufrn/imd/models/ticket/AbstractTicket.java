@@ -1,68 +1,40 @@
 package br.ufrn.imd.models.ticket;
 
-import java.util.List;
-
 import br.ufrn.imd.models.combo.Combo;
+import jakarta.persistence.Column;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public abstract class AbstractTicket {
+import java.io.Serializable;
+import java.util.Set;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@MappedSuperclass
+public abstract class AbstractTicket implements Serializable {
+
+	@NotNull(message = "O preço não pode ser nulo.")
+	@Column(name = "price", nullable = false)
 	private Double price;
+
+	@NotNull(message = "O token não pode ser nulo.")
+	@Column(name = "token", nullable = false)
 	private String token;
 
-	private List<TicketType> ticketTypes;
+	@ManyToMany
+	private Set<TicketType> ticketTypes;
 
-	private List<Combo> combos;
+	@ManyToMany
+	private Set<Combo> combos;
 
+	@Transient
 	private TransferStrategy tranferStrategy;
-
-	public AbstractTicket() {
-
-	}
-
-	public AbstractTicket(Double price, String token, TransferStrategy transferStrategy, List<TicketType> ticketTypes,
-			List<Combo> combos) {
-		this.ticketTypes = ticketTypes;
-		this.combos = combos;
-		this.price = price;
-		this.token = token;
-		this.tranferStrategy = transferStrategy;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public TransferStrategy getTranferStrategy() {
-		return tranferStrategy;
-	}
-
-	public List<TicketType> getTicketTypes() {
-		return ticketTypes;
-	}
-
-	public void setTicketTypes(List<TicketType> ticketTypes) {
-		this.ticketTypes = ticketTypes;
-	}
-
-	public List<Combo> getCombos() {
-		return combos;
-	}
-
-	public void setCombos(List<Combo> combos) {
-		this.combos = combos;
-	}
 
 	public void setTranferStrategy(TransferStrategy tranferStrategy) {
 		synchronized (this.tranferStrategy) {

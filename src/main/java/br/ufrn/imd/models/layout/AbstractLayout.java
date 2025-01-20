@@ -1,13 +1,14 @@
 package br.ufrn.imd.models.layout;
 
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Embeddable
 public abstract class AbstractLayout {
-	protected Double size;
 
-	public AbstractLayout() {
-	}
-
-	public AbstractLayout(Double size) {
-		this.size = size;
-	}
+	protected Integer size;
 
 }

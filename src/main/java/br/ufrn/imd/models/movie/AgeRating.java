@@ -1,42 +1,29 @@
 package br.ufrn.imd.models.movie;
 
-public class AgeRating {
+import br.ufrn.imd.models.AbstractEntity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "age_rating")
+public class AgeRating extends AbstractEntity {
+
+	private static final long serialVersionUID = 1L;
+
+	@NotBlank(message = "O código de classificação etária não pode estar vazio.")
+	@Column(name = "code", nullable = false, length = 10, unique = true)
 	private String code;
+
+	@NotBlank(message = "O nome de classificação etária não pode estar vazio.")
+	@Column(name = "name", nullable = false, length = 100)
 	private String name;
+
+	@Column(name = "description")
 	private String description;
-
-	public AgeRating() {
-	}
-
-	public AgeRating(String code, String name, String description) {
-		this.code = code;
-		this.name = name;
-		this.description = description;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 }

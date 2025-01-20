@@ -7,102 +7,57 @@ import java.time.LocalTime;
 import br.ufrn.imd.models.AbstractEntity;
 import br.ufrn.imd.models.movie.Movie;
 import br.ufrn.imd.models.room.Room;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "session")
 public class Session extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
 
+	@ManyToOne
+	@JoinColumn(name = "movie_id", nullable = false)
+	@NotNull(message = "O filme da sessão deve ser informado.")
 	private Movie movie;
 
+	@ManyToOne
+	@JoinColumn(name = "room_id", nullable = false)
+	@NotNull(message = "A sala da sessão deve ser informada.")
 	private Room room;
 
+	@Column(name = "date", nullable = false)
+	@NotNull(message = "A data da sessão deve ser informada.")
 	private LocalDate date;
 
+	@Column(name = "time", nullable = false)
+	@NotNull(message = "A hora da sessão deve ser informada.")
 	private LocalTime time;
 
+	@Column(name = "language", nullable = false, length = 50)
+	@NotBlank(message = "O idioma da sessão não pode estar vazio.")
 	private String language;
 
+	@Column(name = "available_seats", nullable = false)
+	@NotNull(message = "O número de assentos disponíveis deve ser informado.")
+	@Positive(message = "O número de assentos disponíveis deve ser maior que zero.")
 	private Integer availableSeats;
 
+	@Column(name = "ticket_price", nullable = false, precision = 10, scale = 2)
+	@NotNull(message = "O preço do ingresso deve ser informado.")
+	@DecimalMin(value = "0.01", message = "O preço do ingresso deve ser maior que zero.")
 	private BigDecimal ticketPrice;
 
+	@ManyToOne
+	@JoinColumn(name = "session_type_id", nullable = false)
+	@NotNull(message = "O tipo de sessão deve ser informado.")
 	private SessionType sessionType;
-
-	public Session() {
-	}
-
-	public Session(Movie movie, Room room, LocalDate date, LocalTime time, String language, Integer availableSeats,
-			BigDecimal ticketPrice, SessionType sessionType) {
-		this.movie = movie;
-		this.room = room;
-		this.date = date;
-		this.time = time;
-		this.language = language;
-		this.availableSeats = availableSeats;
-		this.ticketPrice = ticketPrice;
-		this.sessionType = sessionType;
-	}
-
-	public Movie getMovie() {
-		return movie;
-	}
-
-	public void setMovie(Movie movie) {
-		this.movie = movie;
-	}
-
-	public Room getRoom() {
-		return room;
-	}
-
-	public void setRoom(Room room) {
-		this.room = room;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-	public LocalTime getTime() {
-		return time;
-	}
-
-	public void setTime(LocalTime time) {
-		this.time = time;
-	}
-
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
-	public Integer getAvailableSeats() {
-		return availableSeats;
-	}
-
-	public void setAvailableSeats(Integer availableSeats) {
-		this.availableSeats = availableSeats;
-	}
-
-	public BigDecimal getTicketPrice() {
-		return ticketPrice;
-	}
-
-	public void setTicketPrice(BigDecimal ticketPrice) {
-		this.ticketPrice = ticketPrice;
-	}
-
-	public SessionType getSessionType() {
-		return sessionType;
-	}
-
-	public void setSessionType(SessionType sessionType) {
-		this.sessionType = sessionType;
-	}
 }

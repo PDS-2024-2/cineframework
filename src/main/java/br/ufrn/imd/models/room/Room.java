@@ -2,57 +2,35 @@ package br.ufrn.imd.models.room;
 
 import br.ufrn.imd.models.AbstractEntity;
 import br.ufrn.imd.models.layout.AbstractLayout;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "room")
 public class Room extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
 
+	@NotBlank(message = "O código não pode estar em branco.")
+	@Column(name = "code", nullable = false, unique = true)
 	private String code;
 
+	@NotNull(message = "O tipo de sala é obrigatório.")
+	@ManyToOne
+	@JoinColumn(name = "room_type_id", nullable = false)
 	private RoomType roomType;
 
+	@NotNull(message = "A capacidade é obrigatória.")
+	@Column(name = "capacity", nullable = false)
 	private Integer capacity;
 
+	@Embedded
 	private AbstractLayout layout;
-
-	public Room() {
-	}
-
-	public Room(String code, RoomType roomType, Integer capacity) {
-		this.code = code;
-		this.roomType = roomType;
-		this.capacity = capacity;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public RoomType getRoomType() {
-		return roomType;
-	}
-
-	public void setRoomType(RoomType roomType) {
-		this.roomType = roomType;
-	}
-
-	public Integer getCapacity() {
-		return capacity;
-	}
-
-	public void setCapacity(Integer capacity) {
-		this.capacity = capacity;
-	}
-
-	public AbstractLayout getLayout() {
-		return layout;
-	}
-
-	public void setLayout(AbstractLayout layout) {
-		this.layout = layout;
-	}
 
 }
