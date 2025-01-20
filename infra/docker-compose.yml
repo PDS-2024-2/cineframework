@@ -1,0 +1,18 @@
+services:
+  postgres-latest:
+    container_name: postgres-cineframework
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: cineframework-db
+      POSTGRES_USER: cineframework
+      POSTGRES_PASSWORD: cineframework
+
+    ports:
+      - "5440:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
